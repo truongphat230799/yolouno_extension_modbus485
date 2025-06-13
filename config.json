@@ -1,0 +1,15 @@
+{
+    "name": "MODBUS  RS485",
+    "description": "Mục mở rộng dùng cho cảm biến Modbus485",
+    "libs": [
+        "modbus_master.py"
+    ],
+    "blocks": [
+        "definition.js"
+    ],
+    "toolbox": "toolbox.xml",
+    "languages": {
+        
+    },
+    "poster": "poster.png"
+}
