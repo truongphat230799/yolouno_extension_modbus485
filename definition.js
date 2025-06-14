@@ -84,8 +84,9 @@ Blockly.Python['modbus_init'] = function(block) {
   const tx = block.getFieldValue('TX');
   const baud = block.getFieldValue('BAUD');
 
-  Blockly.Python.definitions_['import_modbus_master'] = 'from modbus_master import ModbusMaster';
-  const code = `modbus = ModbusMaster(rx=${rx}_PIN, tx=${tx}_PIN, baudrate=${baud})\n`;
+  Blockly.Python.definitions_['import_modbus_master'] = 'from modbus_master import ModbusRTU';
+  Blockly.Python.definitions_['create_modbus_master'] = `modbus = ModbusRTU(rx=${rx}_PIN, tx=${tx}_PIN, baudrate=${baud})\n`;
+  const code =``
   return code;
 };
 
