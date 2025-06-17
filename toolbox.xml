@@ -57,5 +57,18 @@
         </shadow>
       </value>
     </block>
+    <block type="modbus_read_float" id="modbus_read_float" x="10" y="10">
+      <field name="SLAVE_ID">
+        <shadow type="math_number">
+          <field name="NUM">0</field>
+        </shadow>
+      </field>
+      <field name="REGISTER_ADDR">
+        <shadow type="math_number">
+          <field name="NUM">0</field>
+        </shadow>
+      </field>
+      <field name="BYTE_ORDER">little</field>
+    </block>
   </category>
 </xml>
