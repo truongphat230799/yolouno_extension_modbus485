@@ -40,14 +40,17 @@ Blockly.Blocks['modbus_read_input_registers'] = {
 Blockly.Blocks['modbus_read_holding_registers'] = {
   init: function () {
     this.jsonInit({
-      message0: "đọc holding register thiết bị %4 %1 địa chỉ %5 %2 số lượng %6 %3",
+      message0: "đọc holding register thiết bị %4 %1 function code %7 %8 địa chỉ %5 %2 số lượng %6 %3",
       args0: [
         { type: "input_value", name: "SLAVE_ID"},
         { type: "input_value", name: "ADDRESS"},
         { type: "input_value", name: "QUANTITY"},
         { type: "input_dummy" },
         { type: "input_dummy" },
-        { type: "input_dummy" }
+        { type: "input_dummy" },
+        { type: "input_dummy" },
+        { type: "input_value", name: "FUNC_CODE"}
+
       ],
       output: null,
       colour: 160,
@@ -101,8 +104,9 @@ Blockly.Python['modbus_read_input_registers'] = function(block) {
 Blockly.Python['modbus_read_holding_registers'] = function(block) {
   const slave = Blockly.Python.valueToCode(block, 'SLAVE_ID', Blockly.Python.ORDER_ATOMIC);
   const addr = Blockly.Python.valueToCode(block, 'ADDRESS', Blockly.Python.ORDER_ATOMIC);
+  const func_code = Blockly.Python.valueToCode(block, 'FUNC_CODE', Blockly.Python.ORDER_ATOMIC);
   const qty = Blockly.Python.valueToCode(block, 'QUANTITY', Blockly.Python.ORDER_ATOMIC);
-  const code = `modbus.read_holding_registers(${slave}, ${addr}, ${qty})`;
+  const code = `modbus.read_holding_registers(${slave}, ${func_code}, ${addr}, ${qty})`;
   return [code, Blockly.Python.ORDER_ATOMIC];
 };
 

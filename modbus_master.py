@@ -2,7 +2,7 @@ from machine import UART
 import time
 
 class ModbusRTU:
-    def __init__(self, uart_id=1, tx=6, rx=7, baudrate=9600, timeout=200):
+    def __init__(self, uart_id=1, tx=6, rx=7, baudrate=9600, timeout=250):
         self.uart = UART(uart_id, baudrate=baudrate, tx=tx, rx=rx)
         self.timeout = timeout
 
@@ -41,8 +41,8 @@ class ModbusRTU:
                 return None
         return frame
 
-    def read_holding_registers(self, slave_addr, register_addr, register_count):
-        self.send_request(slave_addr, 0x03, register_addr, register_count)
+    def read_holding_registers(self, slave_addr, func_code, register_addr, register_count):
+        self.send_request(slave_addr, func_code, register_addr, register_count)
         expected_bytes = 5 + 2 * register_count  # 1 slave + 1 func + 1 len + N*2 data + 2 CRC
         response = self.read_response(expected_bytes)
         if not response or len(response) < expected_bytes:
