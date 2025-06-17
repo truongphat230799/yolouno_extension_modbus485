@@ -86,7 +86,7 @@ Blockly.Blocks['modbus_read_float'] = {
   init: function () {
     this.jsonInit({
       type: "modbus_read_float",
-      message0: "đọc float từ slave %4 %1 địa chỉ thanh ghi %5 %2 thứ tự byte %3",
+      message0: "đọc float từ thiết bị %4 %1 function code %6 %7 địa chỉ %5 %2 thứ tự byte %3",
       args0: [
         {
           type: "input_value",
@@ -111,7 +111,9 @@ Blockly.Blocks['modbus_read_float'] = {
           ]
         },
         { type: "input_dummy" },
-        { type: "input_dummy" }
+        { type: "input_dummy" },
+        { type: "input_dummy" },
+        { type: "input_value", name: "FUNC_CODE"}
 
       ],
       output: "Number",
@@ -121,6 +123,48 @@ Blockly.Blocks['modbus_read_float'] = {
     });
   }
 };
+
+Blockly.Blocks['modbus_read_raw_bytes'] = {
+  init: function () {
+    this.jsonInit({
+      "type": "modbus_read_raw_bytes",
+      "message0": "Modbus đọc dữ liệu RAW (dạng byte) thiết bị %4 %1 function code %7 %8 địa chỉ %5 %2 số thanh ghi %6 %3",
+      "args0": [
+        {
+          "type": "input_value",
+          "name": "SLAVE_ID",
+          "value": 1,
+          "min": 1,
+          "max": 247
+        },
+        {
+          "type": "input_value",
+          "name": "REGISTER_ADDR",
+          "value": 0,
+          "min": 0,
+          "max": 65535
+        },
+        {
+          "type": "input_value",
+          "name": "REGISTER_COUNT",
+          "value": 2,
+          "min": 1,
+          "max": 125
+        },
+        { type: "input_dummy" },
+        { type: "input_dummy" },
+        { type: "input_dummy" },
+        { type: "input_dummy" },
+        { type: "input_value", name: "FUNC_CODE"}
+      ],
+      "output": "Array",
+      "colour": 20,
+      "tooltip": "Đọc dữ liệu dạng byte thô từ slave Modbus",
+      "helpUrl": ""
+    });
+  }
+};
+
 
 
 Blockly.Python['modbus_init'] = function(block) {
@@ -161,8 +205,18 @@ Blockly.Python['modbus_write_single_register'] = function(block) {
 
 Blockly.Python['modbus_read_float'] = function(block) {
   var slave_id = Blockly.Python.valueToCode(block, 'SLAVE_ID', Blockly.Python.ORDER_ATOMIC);
+  var func_code = Blockly.Python.valueToCode(block, 'FUNC_CODE', Blockly.Python.ORDER_ATOMIC);
   var reg_addr = Blockly.Python.valueToCode(block, 'REGISTER_ADDR', Blockly.Python.ORDER_ATOMIC);
   var byte_order = block.getFieldValue('BYTE_ORDER');
-  let code = `modbus.read_float(${slave_id}, ${reg_addr}, byte_order="${byte_order}")`;
-  return [code, Blockly.Python.ORDER_FUNCTION_CALL];
+  let code = `modbus.read_float(${slave_id}, ${func_code}, ${reg_addr}, byte_order="${byte_order}")`;
+  return [code, Blockly.Python.ORDER_ATOMIC];
+};
+
+Blockly.Python['modbus_read_raw_bytes'] = function(block) {
+  var slave_id = Blockly.Python.valueToCode(block, 'SLAVE_ID', Blockly.Python.ORDER_ATOMIC);
+  var func_code = Blockly.Python.valueToCode(block, 'FUNC_CODE', Blockly.Python.ORDER_ATOMIC);
+  var reg_addr = Blockly.Python.valueToCode(block, 'REGISTER_ADDR', Blockly.Python.ORDER_ATOMIC);
+  var count = block.getFieldValue('REGISTER_COUNT');
+  var code = `modbus.read_raw_bytes(${slave_id}, ${func_code}, ${reg_addr}, ${count})`;
+  return [code, Blockly.Python.ORDER_ATOMIC];
 };

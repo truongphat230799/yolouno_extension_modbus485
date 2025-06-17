@@ -57,18 +57,45 @@
         </shadow>
       </value>
     </block>
-    <block type="modbus_read_float" id="modbus_read_float" x="10" y="10">
-      <field name="SLAVE_ID">
+    <block type="modbus_read_float" >
+      <value name="SLAVE_ID">
         <shadow type="math_number">
           <field name="NUM">0</field>
         </shadow>
-      </field>
-      <field name="REGISTER_ADDR">
+      </value>
+      <value name="REGISTER_ADDR">
         <shadow type="math_number">
           <field name="NUM">0</field>
         </shadow>
-      </field>
-      <field name="BYTE_ORDER">little</field>
+      </value>
+      <value name="FUNC_CODE">
+        <shadow type="math_number">
+          <field name="NUM">0</field>
+        </shadow>
+      </value>
+      <value name="BYTE_ORDER">little</value>
+    </block>
+    <block type="modbus_read_raw_bytes">
+      <value name="SLAVE_ID">
+        <shadow type="math_number">
+          <field name="NUM">0</field>
+        </shadow>
+      </value>
+      <value name="FUNC_CODE">
+        <shadow type="math_number">
+          <field name="NUM">0</field>
+        </shadow>
+      </value>
+      <value name="REGISTER_ADDR">
+        <shadow type="math_number">
+          <field name="NUM">0</field>
+        </shadow>
+      </value>
+      <value name="REGISTER_COUNT">
+        <shadow type="math_number">
+          <field name="NUM">0</field>
+        </shadow>
+      </value>
     </block>
   </category>
 </xml>

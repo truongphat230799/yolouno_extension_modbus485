@@ -55,7 +55,7 @@ class ModbusRTU:
         return result
 
 
-    def read_float(self, slave_addr, register_addr, byte_order="big"):
+    def read_float(self, slave_addr, func_code, register_addr, byte_order="big"):
         """
         Đọc 2 thanh ghi (32-bit float) từ thiết bị slave và chuyển về float.
         :param slave_addr: Địa chỉ slave Modbus (1-247)
@@ -63,7 +63,7 @@ class ModbusRTU:
         :param byte_order: 'big' (mặc định) hoặc 'little'
         :return: Float32 nếu thành công, None nếu lỗi
         """
-        regs = self.read_holding_registers(slave_addr, register_addr, 2)
+        regs = self.read_holding_registers(slave_addr, func_code, register_addr, 2)
         if regs is None or len(regs) != 2:
             return None
         try:
@@ -77,3 +77,10 @@ class ModbusRTU:
             print("Lỗi chuyển đổi float:", e)
             return None
 
+    def read_raw_bytes(self, slave_addr, func_code, register_addr, register_count):
+        self.send_request(slave_addr, func_code, register_addr, register_count)
+        expected_bytes = 5 + 2 * register_count
+        response = self.read_response(expected_bytes)
+        if not response or len(response) < expected_bytes:
+            return None
+        return list(response[3:-2])  # Trả về mảng byte dữ liệu
